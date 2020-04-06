@@ -18,8 +18,11 @@ const (
 )
 
 func readTablesSql(tables []ConfigTable) string {
-	sql := "select owner, table_name from all_tables "
-	sql += "where (owner, table_name) in ("
+	sql := "select "
+	sql += "t.owner, t.table_name, c.comments "
+	sql += "from all_tables t "
+	sql += "left outer join all_tab_comments c on t.owner = c.owner and t.table_name = c.table_name "
+	sql += "where (t.owner, t.table_name) in ("
 
 	for idx, table := range tables {
 		if idx > 0 {
@@ -27,6 +30,7 @@ func readTablesSql(tables []ConfigTable) string {
 		}
 		sql += fmt.Sprintf("('%s','%s')", table.Owner, table.Name)
 	}
+
 	sql += ")"
 	return sql
 }
@@ -50,10 +54,12 @@ func ReadTables(config Config) ([]ModelTable, error) {
 
 	var owner string
 	var tableName string
+	var comments string
 
 	for rows.Next() {
-		rows.Scan(&owner, &tableName)
+		rows.Scan(&owner, &tableName, &comments)
 		fmt.Println(owner, tableName)
+		fmt.Println(comments)
 	}
 
 	return nil, nil
