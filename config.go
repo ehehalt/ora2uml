@@ -33,7 +33,7 @@ type ConfigTable struct {
 	Color int      `json:"Color"`
 }
 
-func Read(filename string) (Config, error) {
+func ReadConfig(filename string) (Config, error) {
 	var config Config
 
 	file, err := os.Open(filename)

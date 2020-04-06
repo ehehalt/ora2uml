@@ -20,7 +20,7 @@ func main() {
 
 	fmt.Println(configFileName)
 
-	config, err := ora2uml.Read(configFileName)
+	config, err := ora2uml.ReadConfig(configFileName)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)

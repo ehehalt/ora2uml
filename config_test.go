@@ -7,7 +7,7 @@ import (
 func TestConfigRead(t *testing.T) {
 	filename := "test/sample.json"
 
-	config, err := Read(filename)
+	config, err := ReadConfig(filename)
 
 	if err != nil {
 		t.Errorf("File %v should readed without errors", filename)
