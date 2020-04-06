@@ -37,6 +37,21 @@ func main() {
 		fmt.Println(err)
 		os.Exit(0)
 	}
+	defer db.Close()
 	fmt.Println("Connection successful")
-	db.Close()
+
+	rows, err := db.Query("select sysdate from dual")
+	if err != nil {
+		fmt.Println("Error running query")
+		fmt.Println(err)
+		return
+	}
+	defer rows.Close()
+
+	var thedate string
+	for rows.Next() {
+
+		rows.Scan(&thedate)
+	}
+	fmt.Printf("The date is: %s\n", thedate)
 }
