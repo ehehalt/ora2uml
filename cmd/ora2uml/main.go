@@ -9,9 +9,7 @@ import (
 	_ "github.com/godror/godror"
 )
 
-func main() {
-	fmt.Println("ora2uml starter")
-
+func readConfig() ora2uml.Config {
 	if len(os.Args) < 2 {
 		fmt.Println("ora2uml configfile.json")
 		os.Exit(0)
@@ -32,6 +30,10 @@ func main() {
 		fmt.Println("Table =", value.Name)
 	}
 
+	return config
+}
+
+func checkDatabase(config ora2uml.Config) {
 	db, err := sql.Open("godror", config.ConnectionString())
 	if err != nil {
 		fmt.Println(err)
@@ -50,8 +52,17 @@ func main() {
 
 	var thedate string
 	for rows.Next() {
-
 		rows.Scan(&thedate)
 	}
 	fmt.Printf("The date is: %s\n", thedate)
+}
+
+func main() {
+	fmt.Println("ora2uml starter")
+
+	config := readConfig()
+	// checkDatabase(config)
+
+	ora2uml.ReadTables(config)
+
 }
