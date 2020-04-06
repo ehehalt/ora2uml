@@ -1,10 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/ehehalt/ora2uml"
+	_ "github.com/godror/godror"
 )
 
 func main() {
@@ -30,5 +32,11 @@ func main() {
 		fmt.Println("Table =", value.Name)
 	}
 
-	// db, err := sql.Open("godror", )
+	db, err := sql.Open("godror", config.ConnectionString())
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
+	fmt.Println("Connection successful")
+	db.Close()
 }

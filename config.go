@@ -3,6 +3,7 @@ package ora2uml
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -49,4 +50,8 @@ func Read(filename string) (Config, error) {
 	}
 
 	return config, nil
+}
+
+func (config Config) ConnectionString() string {
+	return fmt.Sprintf("%s/%s@%s", config.User.UserId, config.User.Password, config.Database.ServiceName)
 }
