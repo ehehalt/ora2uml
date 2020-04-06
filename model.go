@@ -14,9 +14,17 @@ type ModelTable struct {
 	Columns   []ModelColumn
 }
 
+type Model struct {
+	Tables []ModelTable
+}
+
 func (table ModelTable) FullName() string {
 	if len(table.Owner) > 0 {
 		return fmt.Sprintf("%s.%s", table.Owner, table.TableName)
 	}
 	return table.TableName
+}
+
+func (model *Model) AddTable(table ModelTable) {
+	model.Tables = append(model.Tables, table)
 }

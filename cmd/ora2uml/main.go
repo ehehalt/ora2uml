@@ -63,6 +63,14 @@ func main() {
 	config := readConfig()
 	// checkDatabase(config)
 
-	ora2uml.ReadTables(config)
+	model, error := ora2uml.ReadTables(config)
+	if error != nil {
+		fmt.Println(error)
+		os.Exit(0)
+	}
 
+	fmt.Println("Create Model with", len(model.Tables), "tables ...")
+	for idx, table := range model.Tables {
+		fmt.Println(idx+1, table.FullName())
+	}
 }

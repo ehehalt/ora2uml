@@ -35,7 +35,7 @@ func readTablesSql(tables []ConfigTable) string {
 	return sql
 }
 
-func ReadTables(config Config) ([]ModelTable, error) {
+func ReadTables(config Config) (Model, error) {
 	query := readTablesSql(config.Tables)
 
 	db, err := sql.Open("godror", config.ConnectionString())
@@ -52,15 +52,14 @@ func ReadTables(config Config) ([]ModelTable, error) {
 		os.Exit(0)
 	}
 
-	var owner string
-	var tableName string
-	var comments string
+	model := &Model{}
 
 	for rows.Next() {
-		rows.Scan(&owner, &tableName, &comments)
-		fmt.Println(owner, tableName)
-		fmt.Println(comments)
+		table := &ModelTable{}
+		rows.Scan(&table.Owner, &table.TableName, &table.Comments)
+		fmt.Println(table.Owner, table.TableName)
+		model.AddTable(*table)
 	}
 
-	return nil, nil
+	return *model, nil
 }
