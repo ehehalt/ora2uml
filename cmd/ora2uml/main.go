@@ -69,8 +69,12 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Println("Create Model with", len(model.Tables), "tables ...")
-	for idx, table := range model.Tables {
-		fmt.Println(idx+1, table.FullName())
-	}
+	ora2uml.Export(model, ora2uml.TemplPlantUML)
+
+	/*
+		fmt.Println("Create Model with", len(model.Tables), "tables ...")
+		for idx, table := range model.Tables {
+			fmt.Println(idx+1, table.FullName())
+		}
+	*/
 }
